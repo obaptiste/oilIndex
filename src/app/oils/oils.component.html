@@ -1,0 +1,11 @@
+<h1>My Oils</h1>
+
+
+    <li *ngFor="let oil of oils" 
+    (click)= "onSelect(oil)"  
+    [class.selected]="oil === selectedOil">
+        <a routerLink="/detail/{{oil.id}}">
+            <span class="badge">{{oil.id}}</span> {{oil.name}}
+        </a>
+    </li>
+
