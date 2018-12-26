@@ -21,9 +21,24 @@ export class OilsComponent implements OnInit {
     
   }
 
-  getOils(): void {
+   getOils(): void {
     this.oilService.getOils()
       .subscribe(oils => this.oils = oils);
    }
+
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.oilService.addOil({ name } as Oil)
+    .subscribe(oil => {
+      this.oils.push(oil);
+    });
+  }
+
+  delete(oil: Oil): void {
+    this.oils = this.oils.filter(o => o !== oil);
+    this.oilService.deleteOil(oil).subscribe();
+  }
+
 
 }

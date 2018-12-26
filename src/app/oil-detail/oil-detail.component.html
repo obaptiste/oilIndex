@@ -1,11 +1,14 @@
 <div *ngIf="oil">
     <h2>{{oil.name | uppercase}} Details </h2>
     <div><span>id: </span>{{ oil.id }}</div>
+    <div>{{oil.description}}</div>
     <div>
-        <label>name:
-            <input [(ngModel)]="oil.name" placeholder="name">
+        <label>description:
+            <input [(ngModel)]="oil.description" placeholder="description">
         </label>
     </div>
+
+    <button (click) ="save()">save</button>
 
     <button (click)="goBack()">go back</button>
 

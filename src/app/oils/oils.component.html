@@ -1,11 +1,22 @@
 <h1>My Oils</h1>
 
+<div>
+    <label>Oil name:
+        <input #oilName />
+    </label>
+    <!-- (click passes uboyt value to add() and then clears the inut -->
+    <button (click)="add(oilName.value);
+    oilName.value=''">add</button>
+</div>
 
+<ul>
     <li *ngFor="let oil of oils" 
     (click)= "onSelect(oil)"  
     [class.selected]="oil === selectedOil">
         <a routerLink="/detail/{{oil.id}}">
             <span class="badge">{{oil.id}}</span> {{oil.name}}
         </a>
+        <button class="delete" title="delete oil"
+        (click)="delete(oil)">x</button>
     </li>
-
+</ul>

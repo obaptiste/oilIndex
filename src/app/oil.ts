@@ -1,4 +1,5 @@
 export class Oil {
     id: number;
-    name: string;  
+    name: string;
+    description: string;  
 }
