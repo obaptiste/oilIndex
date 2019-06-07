@@ -1,6 +1,8 @@
+import 'rxjs/add/operator/switchMap';
+
 import { Component, OnInit, Input } from '@angular/core';
 import { Oil } from '../oil';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { OilService } from '../oil.service';
 import { HttpHeaderResponse } from '@angular/common/http';
@@ -19,10 +21,12 @@ export class OilDetailComponent implements OnInit {
   ) { }
 
   
-  @Input() oil: Oil;
+  oil: Oil;
   
   ngOnInit():void {
-    this.getOil();
+    this.route.params
+      .switchMap((params: Params) => this.oilService.getOil(+params['id']))
+      .subscribe(oil => this.oil = oil);
   }
   
   getOil(): void {
@@ -37,8 +41,8 @@ export class OilDetailComponent implements OnInit {
   }
 
   save(): void {
-    this.oilService.updateOil(this.oil)
-      .subscribe(() => this.goBack());
+    this.oilService.update(this.oil)
+      .then(() => this.goBack());
   }
   
 
