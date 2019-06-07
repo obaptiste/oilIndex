@@ -5,11 +5,11 @@
         <input #oilName />
     </label>
     <!-- (click passes uboyt value to add() and then clears the inut -->
-    <button (click)="add(oilName.value);
+    <button (click)="create(oilName.value);
     oilName.value=''">add</button>
 </div>
 
-<ul>
+<ul class="oils">
     <li *ngFor="let oil of oils" 
     (click)= "onSelect(oil)"  
     [class.selected]="oil === selectedOil">
@@ -17,6 +17,13 @@
             <span class="badge">{{oil.id}}</span> {{oil.name}}
         </a>
         <button class="delete" title="delete oil"
-        (click)="delete(oil)">x</button>
+        (click)="delete(oil); $event.stopPropagation()">x</button>
     </li>
 </ul>
+<div *ngIf="selectedOil">
+    <h2>
+      {{selectedOil.name | uppercase}} is my oil
+    </h2>
+    <button (click)="gotoDetail()">View Details</button>
+  </div>
+  

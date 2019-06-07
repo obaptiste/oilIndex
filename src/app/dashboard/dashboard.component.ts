@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.oilService.getOils()
-    .subscribe(oils => this.oils = oils.slice(1,5));
+    .then(oils => this.oils = oils.slice(1,5));
   }
 
 }

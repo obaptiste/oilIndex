@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-
-import { Observable }        from 'rxjs/Observable';
-import { Subject }           from 'rxjs/Subject';
-
-// Observable class extensions
-import 'rxjs/add/observable/of';
+import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 // Observable operators
-import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-import { HeroSearchService } from './oil-search.service';
-import { oil } from './oil';
+import { OilSearchService } from '../oil-search.service';
+import { Oil } from '../oil';
 
 @Component({
   selector: 'oil-search',

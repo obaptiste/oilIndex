@@ -12,6 +12,7 @@ export class OilsComponent implements OnInit {
   
 
   oils: Oil[];
+  selectedOil: Oil;
 
   constructor(private oilService: OilService) {  }
 
@@ -23,21 +24,27 @@ export class OilsComponent implements OnInit {
 
    getOils(): void {
     this.oilService.getOils()
-      .subscribe(oils => this.oils = oils);
+      .then(oils => this.oils = oils);
    }
 
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    this.oilService.addOil({ name } as Oil)
-    .subscribe(oil => {
+    this.oilService.create(name)
+    .then(oil => {
       this.oils.push(oil);
+      this.selectedOil = null;
+
     });
   }
 
   delete(oil: Oil): void {
-    this.oils = this.oils.filter(o => o !== oil);
-    this.oilService.deleteOil(oil).subscribe();
+    this.oilService
+      .deleteOil(oil.id)
+      .then(() => {
+        this.oils = this.oils.filter(o => o !== oil);
+        if (this.selectedOil === oil){ this.selectedOil = null;}
+      });
   }
 
 

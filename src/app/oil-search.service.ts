@@ -1,6 +1,7 @@
+import { Http }       from '@angular/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Observable }     from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 
 import { Oil }           from './oil';
 import { Injectable } from '@angular/core';

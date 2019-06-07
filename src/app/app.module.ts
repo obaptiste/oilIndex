@@ -13,7 +13,7 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 import { OilService } from './oil.service';
 import { OilSearchComponent }  from './oil-search/oil-search.component';
-
+import 'rxjs/Rx';
 
 @NgModule({
   declarations: [
