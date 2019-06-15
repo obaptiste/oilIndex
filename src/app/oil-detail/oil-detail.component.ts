@@ -8,7 +8,8 @@ import { OilService } from '../oil.service';
 @Component({
   selector: 'app-oil-detail',
   templateUrl: './oil-detail.component.html',
-  styleUrls: ['./oil-detail.component.css']
+  styleUrls: ['./oil-detail.component.css'],
+  providers: [OilService]
 })
 export class OilDetailComponent implements OnInit {
 
@@ -27,7 +28,7 @@ export class OilDetailComponent implements OnInit {
       if (params['id'] !== undefined) {
         let id = +params['id'];
         this.oilService.getOil(id)
-        .then(oil => this.oil = oil);
+        .subscribe(oil => this.oil = oil);
       }
     });
   }
@@ -36,7 +37,7 @@ export class OilDetailComponent implements OnInit {
       const id = 
       +this.route.snapshot.paramMap.get('id');
         this.oilService.getOil(id)
-        .then(oil => this.oil = oil);
+        .subscribe(oil => this.oil = oil);
  }
  
   goBack(): void {
@@ -45,7 +46,7 @@ export class OilDetailComponent implements OnInit {
 
   save(): void {
     this.oilService.update(this.oil)
-      .then(() => this.goBack());
+      .subscribe(() => this.goBack());
   }
   
 

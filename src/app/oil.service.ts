@@ -7,6 +7,7 @@ import { Headers, Http } from '@angular/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import 'rxjs/add/operator/toPromise';
+import { NEXT } from '@angular/core/src/render3/interfaces/view';
 
 
 
@@ -17,19 +18,45 @@ import 'rxjs/add/operator/toPromise';
 export class OilService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private oilsUrl = 'api/oils';  // URL to web api
-
+  endpoint = "oils"
+  private oilsUrl = 'http://localhost:3000/' + this.endpoint;  // URL to web api
+  oilsList = []
+  oilsd = []
   constructor(private http: Http) {  }
 
    
     /** Get Oils from the server */
 
-  getOils(): Promise<Oil[]> {
-    return this.http.get(this.oilsUrl)
-    .toPromise()
-    .then(response => response.json().data as Oil[])
-    .catch(this.handleError);
-  }
+  getOils(): Observable <Oil[]> {
+    const url = `${this.oilsUrl}`; 
+    let grab = this.http.get(url);
+    grab.subscribe((data) => {
+      this.oilsList = data.json() as Oil[];     
+      console.log(this.oilsList)
+    });
+    
+    return;
+   }
+
+  // fetchOils() {
+  //   return fetch(this.oilsUrl + this.endpoint)
+  //     .next(
+  //       function(response) {
+  //         if (response.status !== 200) {
+  //           console.log('Looks like we have a problem getting oils. Status code: ' + response.status);
+  //           return;
+  //         }
+  //         // Examine the text in the response
+  //         response.json().then(function(data) {
+  //           console.log(data);
+            
+  //         });
+  //       }
+  //     )
+  //     .catch(function(err) {
+  //       console.log('Fetch Error :-S', err);
+  //     });
+  //   }
 
   /** Get oil by id. Return 'undefined' when id not found */
 
@@ -49,42 +76,38 @@ export class OilService {
   //     )
 //  }
 
-  getOil(id: number): Promise<Oil> {
+  getOil(id: number): Observable<Oil> {
    const url = `${this.oilsUrl}/${id}`;
-   return this.http.get(url)
-   .toPromise()
-   .then(response => response.json().data as Oil)
-   .catch(this.handleError);
+   const oil = this.http.get(url)
+   .subscribe(data => data.json() as Oil[]);
+   console.log(oil);
+   return;
   }
-
   /** Update oils on the server */
  
-  update(oil: Oil): Promise<Oil> {
+  update(oil: Oil): Observable<Oil> {
     const url = `${this.oilsUrl}/${oil.id}`;
-    return this.http
+     this.http
     .put(url, JSON.stringify(oil), {headers: this.headers})
-    .toPromise()
-    .then(() => oil)
-    .catch(this.handleError);
+    .subscribe(() => oil)
+    return;
   }
-
   /** POST: add a new oil to the server */
-  create (name: string): Promise<Oil> {
-    return this.http
+  create (name: string): Observable<Oil> {
+     this.http
     .post(this.oilsUrl, JSON.stringify({name: name}), {headers: this.headers})
-    .toPromise()
-    .then(res => res.json().data as Oil)
-    .catch(this.handleError);
+    .subscribe(data => data.json() as Oil);
+    console.log("yo");
+    return;
   }
 
   /** DELETE: delete the oil from the server */
 
-  deleteOil (id: number): Promise<void> {
+  deleteOil (id: number): Observable<void> {
     const url = `${this.oilsUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
-    .toPromise()
-    .then(res => res.json().data as Oil)
-    .catch(this.handleError);
+    this.http.delete(url, {headers: this.headers})
+    .subscribe(res => res.json().data as Oil);
+    return
   }
 
   private handleError(error: any): Promise<any> {

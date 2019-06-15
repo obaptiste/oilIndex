@@ -5,7 +5,8 @@ import { OilService } from '../oil.service';
 @Component({
   selector: 'app-oils',
   templateUrl: './oils.component.html',
-  styleUrls: ['./oils.component.css']
+  styleUrls: ['./oils.component.css'],
+  providers: [OilService]
 })
 
 export class OilsComponent implements OnInit {
@@ -18,30 +19,32 @@ export class OilsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getOils();
-    
+    this.oilService.getOils()
+    .subscribe(() => this.oils as Oil[] );
   }
 
    getOils(): void {
     this.oilService.getOils()
-      .then(oils => this.oils = oils);
+      .subscribe(() => {
+        oils => this.oils = oils;
+        console.log(this.oils);
+      })
    }
 
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
     this.oilService.create(name)
-    .then(oil => {
-      this.oils.push(oil);
+    .subscribe(() => {
+      oil => this.oils.push(oil);
       this.selectedOil = null;
-
     });
   }
 
   delete(oil: Oil): void {
     this.oilService
       .deleteOil(oil.id)
-      .then(() => {
+      .subscribe(() => {
         this.oils = this.oils.filter(o => o !== oil);
         if (this.selectedOil === oil){ this.selectedOil = null;}
       });
